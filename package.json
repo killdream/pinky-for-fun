@@ -1,6 +1,6 @@
 {
   "name": "pinky-for-fun",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pinky wrappers for regular and asynchronous functions.",
   "main": "./lib/index.js",
   "devDependencies": {

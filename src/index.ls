@@ -41,12 +41,12 @@ lift = (f) -> (...args) ->
 #### λ lift-node
 # Lifts a Node-style function into a function yielding a Promise.
 #
-# :: (a..., ((Error c, ...b) -> ())) -> a... -> Promise [b] c
+# :: (a..., ((Error c, b) -> ())) -> a... -> Promise b c
 lift-node = (f) -> (...args) ->
   promise = pinky!
-  f ...args, (err, ...data) ->
-                            | err => promise.reject err
-                            | _   => promise.fulfill data
+  f ...args, (err, data) ->
+                         | err => promise.reject err
+                         | _   => promise.fulfill data
   return promise  
 
 

@@ -20,7 +20,7 @@ describe 'Pinky for Fun' ->
                                 | _      => f void, n
 
     o 'Should succeed if no error is passed to the callback.' ->
-       expect (read-p 1) .to.become [1]
+       expect (read-p 1) .to.become 1
 
     o 'Should fail if an error is passed to the callback.' ->
        expect (read-p 0) .to.be.rejected.with /no u/
