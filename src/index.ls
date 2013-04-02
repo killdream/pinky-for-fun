@@ -2,9 +2,9 @@
 #
 # Pinky wrappers for regular and asynchronous functions.
 #
-# 
+#
 # Copyright (c) 2013 Quildreen "Sorella" Motta <quildreen@gmail.com>
-# 
+#
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
 # (the "Software"), to deal in the Software without restriction,
@@ -12,10 +12,10 @@
 # publish, distribute, sublicense, and/or sell copies of the Software,
 # and to permit persons to whom the Software is furnished to do so,
 # subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -26,6 +26,7 @@
 
 ### -- Dependencies ----------------------------------------------------
 pinky = require 'pinky'
+{all} = require 'pinky-combinators'
 
 
 ### -- Regular functions -----------------------------------------------
@@ -33,21 +34,21 @@ pinky = require 'pinky'
 #### λ lift
 # Lifts a regular function into a function yielding a Promise.
 #
-# :: (a... -> b) -> a... -> Promise b c
+# :: (a... -> b) -> Promise a c... -> Promise b c
 lift = (f) -> (...args) ->
-  pinky args .then (as) -> f ...as
+  (all args) .then (as) -> f ...as
 
 
 #### λ lift-node
 # Lifts a Node-style function into a function yielding a Promise.
 #
-# :: (a..., ((Error c, b) -> ())) -> a... -> Promise b c
+# :: (a..., ((Error c, b) -> ())) -> Promise a c... -> Promise b c
 lift-node = (f) -> (...args) ->
   promise = pinky!
-  f ...args, (err, data) ->
-                         | err => promise.reject err
-                         | _   => promise.fulfill data
-  return promise  
+  (all args) .then (as) -> f ...as, (err, data) ->
+                                                | err => promise.reject err
+                                                | _   => promise.fulfill data
+  return promise
 
 
 
